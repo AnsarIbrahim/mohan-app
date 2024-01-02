@@ -1,8 +1,15 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import User from './components/User/User';
+
 function App() {
   return (
-    <div className="flex items-center justify-center">
-      <h1 className="text-3xl font-bold text-red-700 underline">Hello Ansar</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<User />} />
+        {/* other routes... */}
+      </Routes>
+    </Router>
   );
 }
 
