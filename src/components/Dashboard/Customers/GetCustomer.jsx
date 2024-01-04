@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import CustomerDetails from './CustomerDetails';
+import CustomerFullDetails from './CustomerFullDetails';
 import Navbar from '../../Navbar/Navbar';
 import { getCustomer } from '../../../redux/firebase/firebase';
 
@@ -48,7 +48,10 @@ const GetCustomer = () => {
           </div>
         </div>
       </div>
-      <CustomerDetails customerId={customer.id} details={customer.details} />
+      <CustomerFullDetails
+        detailId={customer.details}
+        customerId={customer.id}
+      />
     </>
   );
 };

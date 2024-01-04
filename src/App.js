@@ -3,6 +3,9 @@ import LoginCard from './components/User/LoginCard';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddCustomers from './components/Dashboard/Customers/AddCustomers';
 import GetCustomer from './components/Dashboard/Customers/GetCustomer';
+import CustomerDetails from './components/Dashboard/Customers/CustomerDetails';
+import View from './components/Dashboard/Customers/View';
+import ViewFullDetails from './components/Dashboard/Customers/ViewFullDetails';
 import CustomerForm from './components/Dashboard/Customers/CustomerForm';
 import EditCustomerDetails from './components/Dashboard/Customers/EditCustomerDetails';
 import ProtectedRoute from './components/User/ProductedRoute';
@@ -38,6 +41,14 @@ function App() {
             }
           />
           <Route
+            path="/customer-details/:customerId/:detailId"
+            element={
+              <ProtectedRoute>
+                <CustomerDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/customer-form"
             element={
               <ProtectedRoute>
@@ -50,6 +61,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <EditCustomerDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/view/:customerId/:detailId"
+            element={
+              <ProtectedRoute>
+                <View />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/view-full-details/:customerId"
+            element={
+              <ProtectedRoute>
+                <ViewFullDetails />
               </ProtectedRoute>
             }
           />
