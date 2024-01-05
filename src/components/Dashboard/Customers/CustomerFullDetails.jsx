@@ -18,6 +18,10 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
     (total, detail) => total + Number(detail.numOfPieces),
     0,
   );
+  const cusWeight = detailsArray.reduce(
+    (total, detail) => total + Number(detail.cusWeight),
+    0,
+  );
   const totalWeight = detailsArray.reduce(
     (total, detail) => total + Number(detail.totalWeight),
     0,
@@ -47,6 +51,9 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
               Pieces
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              Cus Weight
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
               Weight
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -74,6 +81,9 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
                 {detail.numOfPieces}
               </td>
               <td className="whitespace-nowrap px-6 py-4">
+                {detail.cusWeight}
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
                 {detail.totalWeight}
               </td>
               <td className="whitespace-nowrap px-6 py-4">{detail.delivery}</td>
@@ -88,6 +98,7 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
               Total
             </th>
             <td className="whitespace-nowrap px-6 py-4">{totalPieces}</td>
+            <td className="whitespace-nowrap px-6 py-4">{cusWeight}</td>
             <td className="whitespace-nowrap px-6 py-4">{totalWeight}</td>
             <td className="whitespace-nowrap px-6 py-4">{totalDelivery}</td>
             <td className="whitespace-nowrap px-6 py-4">{totalWastage}</td>

@@ -13,6 +13,7 @@ const CustomerForm = () => {
   const [customer, setCustomer] = useState(null);
   const [date] = useState(new Date().toISOString().split('T')[0]);
   const [numOfPieces, setNumOfPieces] = useState('');
+  const [cusWeight, setCusWeight] = useState(''); // TODO: Remove this
   const [totalWeight, setTotalWeight] = useState('');
   const [delivery, setDelivery] = useState('');
   const [wastage, setWastage] = useState('');
@@ -46,6 +47,7 @@ const CustomerForm = () => {
         .toISOString()
         .split('T')[0],
       numOfPieces,
+      cusWeight,
       totalWeight,
       delivery,
       wastage,
@@ -94,6 +96,15 @@ const CustomerForm = () => {
                 type="text"
                 value={numOfPieces}
                 onChange={(e) => setNumOfPieces(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Customer Weight:</span>
+              <input
+                type="text"
+                value={cusWeight}
+                onChange={(e) => setCusWeight(e.target.value)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
             </label>

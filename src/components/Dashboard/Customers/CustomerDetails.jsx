@@ -99,6 +99,10 @@ const CustomerDetails = () => {
             {detail.numOfPieces}
           </p>
           <p className="mb-2">
+            <strong className="text-gray-700">Customer Weight:</strong>{' '}
+            {detail.cusWeight}
+          </p>
+          <p className="mb-2">
             <strong className="text-gray-700">Total Weight:</strong>{' '}
             {detail.totalWeight}
           </p>
