@@ -53,19 +53,23 @@ const View = () => {
       <div className="flex h-screen items-center justify-center">
         <div
           id="customer-details"
-          className="m-3 mx-auto max-w-md overflow-hidden rounded-xl bg-white p-5 shadow-md md:max-w-2xl"
+          className="m-3 mx-auto w-[90%] max-w-md overflow-hidden rounded-xl bg-white p-5 shadow-md md:max-w-2xl"
         >
-          <h2 className="mb-5 text-2xl font-bold text-gray-900">
+          <h2 className="mb-5 flex items-center text-2xl font-bold text-gray-900">
             Name: {customer.name}{' '}
           </h2>
           <p>Email: {customer.email}</p>{' '}
-          <div className="relative m-4 rounded-lg bg-white p-4 shadow-md">
+          <div className="relative rounded-lg bg-white p-4 shadow-md">
             <p className="mb-2">
               <strong className="text-gray-700">Date:</strong> {formattedDate}
             </p>
             <p className="mb-2">
               <strong className="text-gray-700">Number of Pieces:</strong>{' '}
               {details.numOfPieces}
+            </p>
+            <p className="mb-2">
+              <strong className="text-gray-700">Customer Weight:</strong>{' '}
+              {details.cusWeight}
             </p>
             <p className="mb-2">
               <strong className="text-gray-700">Total Weight:</strong>{' '}
@@ -85,7 +89,9 @@ const View = () => {
             </p>
             <hr className="my-4" />
           </div>
-          <button onClick={handleExportClick}>Download</button>
+          <button className="mt-4" onClick={handleExportClick}>
+            Download
+          </button>
         </div>
       </div>
     </>
