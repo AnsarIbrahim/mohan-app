@@ -65,7 +65,7 @@ const ViewFullDetails = () => {
   return (
     <>
       <Navbar backRoute="/getCustomer" customer={customer} />
-      <div className="rounded-lg bg-white p-6 shadow-lg">
+      <div className="overflow-x-auto rounded-lg bg-white p-6 shadow-lg">
         <table
           ref={tableRef}
           className="w-full table-auto divide-y divide-gray-200"
