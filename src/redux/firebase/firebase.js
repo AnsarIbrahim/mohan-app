@@ -87,7 +87,32 @@ const addCustomerDetails = async (customerId, details) => {
   }
 };
 
-// Firebase.js or wherever your firebase functions are defined
+const getAllCustomerDetails = async (customerId) => {
+  console.log('Fetching all details for customer with ID:', customerId);
+
+  try {
+    const db = getDatabase();
+    const detailsRef = ref(db, `customers/${customerId}/details`);
+
+    const snapshot = await get(detailsRef);
+
+    if (snapshot.exists()) {
+      const detailsData = snapshot.val();
+      const detailsArray = Object.keys(detailsData).map((key) => ({
+        id: key,
+        ...detailsData[key],
+      }));
+      console.log('Details:', detailsArray);
+      return detailsArray;
+    } else {
+      console.error('No details found for customer with ID:', customerId);
+      throw new Error('No such details!');
+    }
+  } catch (error) {
+    console.error('Error fetching details:', error);
+    throw error;
+  }
+};
 
 const getCustomerDetail = async (customerId, detailId) => {
   console.log('Fetching detail with ID:', detailId);
@@ -108,7 +133,7 @@ const getCustomerDetail = async (customerId, detailId) => {
     }
   } catch (error) {
     console.error('Error fetching detail:', error);
-    throw error; // Rethrow the error to be caught by the calling code
+    throw error;
   }
 };
 
@@ -148,4 +173,5 @@ export {
   editCustomerDetail,
   getCustomerDetail,
   deleteCustomerDetail,
+  getAllCustomerDetails,
 };

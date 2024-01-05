@@ -13,7 +13,7 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-500">
         <GetCustomers />
         <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
           <div className="flex items-center justify-center">
