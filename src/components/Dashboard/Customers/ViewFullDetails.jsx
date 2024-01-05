@@ -65,7 +65,7 @@ const ViewFullDetails = () => {
   return (
     <>
       <Navbar backRoute="/getCustomer" customer={customer} />
-      <div className="rounded-lg bg-white p-6 shadow-lg">
+      <div className="overflow-x-auto rounded-lg bg-white p-6 shadow-lg">
         <table
           ref={tableRef}
           className="w-full table-auto divide-y divide-gray-200"
@@ -106,22 +106,22 @@ const ViewFullDetails = () => {
                 <tr key={index}>
                   <td className="whitespace-nowrap px-6 py-4">{detail.date}</td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {detail.numOfPieces}
+                    {detail.numOfPieces} pcs
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {detail.cusWeight}
+                    {detail.cusWeight} gm
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {detail.totalWeight}
+                    {detail.totalWeight} gm
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {detail.delivery}
+                    {detail.delivery} gm
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {detail.wastage}
+                    {detail.wastage} gm
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {detail.balance}
+                    {detail.balance} gm
                   </td>
                 </tr>
               ))}
@@ -131,12 +131,14 @@ const ViewFullDetails = () => {
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                 Total
               </th>
-              <td className="whitespace-nowrap px-6 py-4">{totalPieces}</td>
-              <td className="whitespace-nowrap px-6 py-4">{cusWeight}</td>
-              <td className="whitespace-nowrap px-6 py-4">{totalWeight}</td>
-              <td className="whitespace-nowrap px-6 py-4">{totalDelivery}</td>
-              <td className="whitespace-nowrap px-6 py-4">{totalWastage}</td>
-              <td className="whitespace-nowrap px-6 py-4">{totalBalance}</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalPieces} pcs</td>
+              <td className="whitespace-nowrap px-6 py-4">{cusWeight} gm</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalWeight} gm</td>
+              <td className="whitespace-nowrap px-6 py-4">
+                {totalDelivery} gm
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">{totalWastage} gm</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalBalance} gm</td>
             </tr>
           </tfoot>
         </table>

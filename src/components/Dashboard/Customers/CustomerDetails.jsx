@@ -83,7 +83,7 @@ const CustomerDetails = () => {
         </h2>
         <div
           key={detailId}
-          className="relative m-4 rounded-lg bg-white p-4 shadow-md"
+          className="relative w-[100%] rounded-lg bg-white p-4 shadow-md"
         >
           <button
             onClick={() => handleEditClick(detailId)}

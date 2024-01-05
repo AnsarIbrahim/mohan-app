@@ -41,71 +41,79 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
 
   return (
     <>
-      <table className="mt-4 w-full table-auto divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Date
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Pieces
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Cus Weight
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Weight
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Delivery
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Wastage
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-              Balance
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
-          {detailsArray.map((detail, index) => (
-            <tr
-              key={index}
-              onClick={() =>
-                navigate(`/customer-details/${customerId}/${detail.id}`)
-              }
-              className="cursor-pointer"
-            >
-              <td className="whitespace-nowrap px-6 py-4">{detail.date}</td>
-              <td className="whitespace-nowrap px-6 py-4">
-                {detail.numOfPieces}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">
-                {detail.cusWeight}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">
-                {detail.totalWeight}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">{detail.delivery}</td>
-              <td className="whitespace-nowrap px-6 py-4">{detail.wastage}</td>
-              <td className="whitespace-nowrap px-6 py-4">{detail.balance}</td>
+      <div className="overflow-x-auto">
+        <table className="mt-4 w-full table-auto divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Pieces
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Cus Weight
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Weight
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Delivery
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Wastage
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Balance
+              </th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot className="bg-gray-200">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-              Total
-            </th>
-            <td className="whitespace-nowrap px-6 py-4">{totalPieces}</td>
-            <td className="whitespace-nowrap px-6 py-4">{cusWeight}</td>
-            <td className="whitespace-nowrap px-6 py-4">{totalWeight}</td>
-            <td className="whitespace-nowrap px-6 py-4">{totalDelivery}</td>
-            <td className="whitespace-nowrap px-6 py-4">{totalWastage}</td>
-            <td className="whitespace-nowrap px-6 py-4">{totalBalance}</td>
-          </tr>
-        </tfoot>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-200 bg-white">
+            {detailsArray.map((detail, index) => (
+              <tr
+                key={index}
+                onClick={() =>
+                  navigate(`/customer-details/${customerId}/${detail.id}`)
+                }
+                className="cursor-pointer"
+              >
+                <td className="whitespace-nowrap px-6 py-4">{detail.date}</td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.numOfPieces}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.cusWeight}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.totalWeight}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.delivery}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.wastage}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.balance}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="bg-gray-200">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Total
+              </th>
+              <td className="whitespace-nowrap px-6 py-4">{totalPieces}</td>
+              <td className="whitespace-nowrap px-6 py-4">{cusWeight}</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalWeight}</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalDelivery}</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalWastage}</td>
+              <td className="whitespace-nowrap px-6 py-4">{totalBalance}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
       <div className="flex items-center justify-end bg-white pr-6 pt-2">
         <button
           onClick={handleViewClick}

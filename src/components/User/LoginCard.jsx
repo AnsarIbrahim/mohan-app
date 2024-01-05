@@ -5,6 +5,7 @@ import './LoginCard.css';
 
 const LoginCard = () => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -40,6 +41,8 @@ const LoginCard = () => {
               type="text"
               name="email"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value.toLowerCase())}
               className="w-full rounded border border-gray-300 px-4 py-2 text-black"
             />
             <input
