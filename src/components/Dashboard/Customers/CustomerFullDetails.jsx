@@ -18,26 +18,21 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
     (total, detail) => total + Number(detail.numOfPieces),
     0,
   );
-  const cusWeight = detailsArray.reduce(
-    (total, detail) => total + Number(detail.cusWeight),
-    0,
-  );
-  const totalWeight = detailsArray.reduce(
-    (total, detail) => total + Number(detail.totalWeight),
-    0,
-  );
-  const totalDelivery = detailsArray.reduce(
-    (total, detail) => total + Number(detail.delivery),
-    0,
-  );
-  const totalWastage = detailsArray.reduce(
-    (total, detail) => total + Number(detail.wastage),
-    0,
-  );
-  const totalBalance = detailsArray.reduce(
-    (total, detail) => total + Number(detail.balance),
-    0,
-  );
+  const cusWeight = detailsArray
+    .reduce((total, detail) => total + Number(detail.cusWeight), 0)
+    .toFixed(2);
+  const totalWeight = detailsArray
+    .reduce((total, detail) => total + Number(detail.totalWeight), 0)
+    .toFixed(2);
+  const totalDelivery = detailsArray
+    .reduce((total, detail) => total + Number(detail.delivery), 0)
+    .toFixed(2);
+  const totalWastage = detailsArray
+    .reduce((total, detail) => total + Number(detail.wastage), 0)
+    .toFixed(2);
+  const totalBalance = detailsArray
+    .reduce((total, detail) => total + Number(detail.balance), 0)
+    .toFixed(2);
 
   return (
     <>
