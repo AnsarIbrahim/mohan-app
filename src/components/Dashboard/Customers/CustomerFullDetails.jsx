@@ -12,7 +12,11 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
     return <p>No details available.</p>;
   }
 
-  const detailsArray = Object.values(detailId);
+  const detailsArray = [...Object.values(detailId)].sort((a, b) => {
+    const aTime = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+    const bTime = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+    return aTime - bTime;
+  });
 
   const totalPieces = detailsArray.reduce(
     (total, detail) => total + Number(detail.numOfPieces),
