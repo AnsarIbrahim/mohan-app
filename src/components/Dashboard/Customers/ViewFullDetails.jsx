@@ -60,83 +60,104 @@ const ViewFullDetails = () => {
   return (
     <>
       <Navbar backRoute="/getCustomer" customer={customer} />
-      <div className="overflow-x-auto rounded-lg bg-white p-6 shadow-lg">
-        <table
-          ref={tableRef}
-          className="w-full table-auto divide-y divide-gray-200"
-        >
-          <caption className="p-2">
-            <h1 className="text-center text-2xl font-bold text-blue-500">
-              From Mohan Kumar
-            </h1>
-          </caption>
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Pieces
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                {customer ? customer.name : 'Loading...'} Weight
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-               Mohan Weight
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Delivery
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Wastage
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Balance
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
-            {Array.isArray(details) &&
-              details.map((detail, index) => (
-                <tr key={index}>
-                  <td className="whitespace-nowrap px-6 py-4">{detail.date}</td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    {detail.numOfPieces} pcs
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    {detail.cusWeight} gm
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    {detail.totalWeight} gm
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    {detail.delivery} gm
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    {detail.wastage} gm
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    {detail.balance} gm
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-          <tfoot className="bg-gray-200">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                Total
-              </th>
-              <td className="whitespace-nowrap px-6 py-4">{totalPieces} pcs</td>
-              <td className="whitespace-nowrap px-6 py-4">{cusWeight} gm</td>
-              <td className="whitespace-nowrap px-6 py-4">{totalWeight} gm</td>
-              <td className="whitespace-nowrap px-6 py-4">
-                {totalDelivery} gm
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">{totalWastage} gm</td>
-              <td className="whitespace-nowrap px-6 py-4">{totalBalance} gm</td>
-            </tr>
-          </tfoot>
-        </table>
+      <div className="bg-[#06496E]" ref={tableRef}>
+        <h1 className="py-5 text-center text-5xl font-bold text-white">
+          Mohan Kumar
+        </h1>
+        <div className="-mt-20 overflow-x-auto rounded-lg bg-[#064a6ec2] p-36 shadow-lg">
+          <table className="w-full table-auto border-separate border-spacing-2 divide-gray-200 rounded-lg border border-slate-400">
+            <thead className="bg-[#06496E]">
+              <tr>
+                <th className="border border-slate-300 px-10 py-9 text-left text-sm font-medium uppercase tracking-wider text-white">
+                  Date
+                </th>
+                <th className="border border-slate-300 px-2 py-9 text-left text-xs font-medium uppercase tracking-wider text-white">
+                  Pieces
+                </th>
+                <th className="border border-slate-300 px-2 py-9 text-left text-xs font-medium uppercase tracking-wider text-white">
+                  {customer ? customer.name : 'Loading...'} Weight
+                </th>
+                <th className="border border-slate-300 px-2 py-9 text-left text-xs font-medium uppercase tracking-wider text-white">
+                  Mohan Weight
+                </th>
+                <th className="border border-slate-300 px-2 py-9 text-left text-xs font-medium uppercase tracking-wider text-white">
+                  Delivery
+                </th>
+                <th className="border border-slate-300 px-2 py-9 text-left text-xs font-medium uppercase tracking-wider text-white">
+                  Wastage
+                </th>
+                <th className="border border-slate-300 px-2 py-9 text-left text-xs font-medium uppercase tracking-wider text-white">
+                  Balance
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 ">
+              {Array.isArray(details) &&
+                details.map((detail, index) => (
+                  <tr
+                    key={index}
+                    className={`whitespace-nowrap px-10 py-4 ${
+                      index % 2 === 0 ? 'bg-[#8AABBD]' : 'bg-[#fcff3e]'
+                    }`}
+                    style={{
+                      fontFamily: 'Roboto, sans-serif',
+                      fontSize: '16px',
+                      fontStyle: 'bold',
+                    }}
+                  >
+                    <td className="whitespace-nowrap border border-slate-300 px-10 py-4 font-semibold">
+                      {detail.date}
+                    </td>
+                    <td className="whitespace-nowrap border border-slate-300 px-2 py-4 font-semibold">
+                      {detail.numOfPieces} pcs
+                    </td>
+                    <td className="whitespace-nowrap border border-slate-300 px-2 py-4 font-semibold">
+                      {detail.cusWeight} gm
+                    </td>
+                    <td className="whitespace-nowrap border border-slate-300 px-2 py-4 font-semibold">
+                      {detail.totalWeight} gm
+                    </td>
+                    <td className="whitespace-nowrap border border-slate-300 px-2 py-4 font-semibold">
+                      {detail.delivery} gm
+                    </td>
+                    <td className="whitespace-nowrap border border-slate-300 px-2 py-4 font-semibold">
+                      {detail.wastage} gm
+                    </td>
+                    <td className="whitespace-nowrap border border-slate-300 px-2 py-4 font-semibold">
+                      {detail.balance} gm
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+            <tfoot className="bg-[#06496E] text-white">
+              <tr>
+                <th className="border border-slate-300 px-10 py-9 text-left text-sm font-medium uppercase tracking-wider">
+                  Total
+                </th>
+                <td className="whitespace-nowrap border border-slate-300 px-2 py-4">
+                  {totalPieces} pcs
+                </td>
+                <td className="whitespace-nowrap border border-slate-300 px-2 py-4">
+                  {cusWeight} gm
+                </td>
+                <td className="whitespace-nowrap border border-slate-300 px-2 py-4">
+                  {totalWeight} gm
+                </td>
+                <td className="whitespace-nowrap border border-slate-300 px-2 py-4">
+                  {totalDelivery} gm
+                </td>
+                <td className="whitespace-nowrap border border-slate-300 px-2 py-4">
+                  {totalWastage} gm
+                </td>
+                <td className="whitespace-nowrap border border-slate-300 px-2 py-4">
+                  {totalBalance} gm
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div className="flex items-center justify-center p-3">
         <button
           onClick={handleDownloadClick}
           className="mt-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
