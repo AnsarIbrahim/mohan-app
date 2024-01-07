@@ -80,7 +80,8 @@ const addCustomerDetails = async (customerId, details) => {
       db,
       `customers/${customerId}/details/${details.id}`,
     );
-    await set(customerDetailsRef, details);
+    const timestamp = Date.now();
+    await set(customerDetailsRef, { ...details, timestamp });
     console.log('Customer details added successfully');
   } catch (error) {
     console.error('Error adding customer details:', error);
@@ -98,10 +99,12 @@ const getAllCustomerDetails = async (customerId) => {
 
     if (snapshot.exists()) {
       const detailsData = snapshot.val();
-      const detailsArray = Object.keys(detailsData).map((key) => ({
-        id: key,
-        ...detailsData[key],
-      }));
+      const detailsArray = Object.keys(detailsData)
+        .map((key) => ({
+          id: key,
+          ...detailsData[key],
+        }))
+        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       console.log('Details:', detailsArray);
       return detailsArray;
     } else {
