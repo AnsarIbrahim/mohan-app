@@ -41,26 +41,21 @@ const ViewFullDetails = () => {
     (total, detail) => total + Number(detail.numOfPieces),
     0,
   );
-  const cusWeight = detailsArray.reduce(
-    (total, detail) => total + Number(detail.cusWeight),
-    0,
-  );
-  const totalWeight = detailsArray.reduce(
-    (total, detail) => total + Number(detail.totalWeight),
-    0,
-  );
-  const totalDelivery = detailsArray.reduce(
-    (total, detail) => total + Number(detail.delivery),
-    0,
-  );
-  const totalWastage = detailsArray.reduce(
-    (total, detail) => total + Number(detail.wastage),
-    0,
-  );
-  const totalBalance = detailsArray.reduce(
-    (total, detail) => total + Number(detail.balance),
-    0,
-  );
+  const cusWeight = detailsArray
+    .reduce((total, detail) => total + Number(detail.cusWeight), 0)
+    .toFixed(2);
+  const totalWeight = detailsArray
+    .reduce((total, detail) => total + Number(detail.totalWeight), 0)
+    .toFixed(2);
+  const totalDelivery = detailsArray
+    .reduce((total, detail) => total + Number(detail.delivery), 0)
+    .toFixed(2);
+  const totalWastage = detailsArray
+    .reduce((total, detail) => total + Number(detail.wastage), 0)
+    .toFixed(2);
+  const totalBalance = detailsArray
+    .reduce((total, detail) => total + Number(detail.balance), 0)
+    .toFixed(2);
 
   return (
     <>
@@ -84,7 +79,7 @@ const ViewFullDetails = () => {
                 Pieces
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                Cus Weight
+                {customer ? customer.name : 'Loading...'} Weight
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                 Weight
