@@ -9,6 +9,8 @@ import ViewFullDetails from './components/Dashboard/Customers/ViewFullDetails';
 import CustomerForm from './components/Dashboard/Customers/CustomerForm';
 import EditCustomerDetails from './components/Dashboard/Customers/EditCustomerDetails';
 import ProtectedRoute from './components/User/ProductedRoute';
+import GetCustomers from './components/Dashboard/Customers/GetCustomers';
+import CustomerFullDetails from './components/Dashboard/Customers/CustomerFullDetails';
 // import TemplateInvoice from './components/Utils/Template/TemplateInvoice';
 
 function App() {
@@ -43,10 +45,26 @@ function App() {
             }
           />
           <Route
+            path="/getCustomers"
+            element={
+              <ProtectedRoute>
+                <GetCustomers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/customer-details/:customerId/:detailId"
             element={
               <ProtectedRoute>
                 <CustomerDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/customer-full-details/:customerId/:cusDate"
+            element={
+              <ProtectedRoute>
+                <CustomerFullDetails />
               </ProtectedRoute>
             }
           />

@@ -1,22 +1,59 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  getCustomerDetail,
+  getCustomer,
+} from '../../../redux/firebase/firebase';
 
-const CustomerFullDetails = ({ detailId, customerId }) => {
+const CustomerFullDetails = () => {
+  const { customerId, cusDate } = useParams();
+  const [detail, setDetail] = useState(null);
+  const [customer, setCustomer] = useState(null);
   const navigate = useNavigate();
+
+  console.log('detailId', cusDate);
+  console.log('customerId', customerId);
+  console.log(detail);
+  console.log(customer);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        if (cusDate) {
+          const detailsData = await getCustomerDetail(
+            customerId,
+            String(cusDate),
+          );
+          setDetail(detailsData);
+        }
+
+        const fetchedCustomer = await getCustomer(customerId);
+        setCustomer(fetchedCustomer);
+      } catch (error) {
+        console.error('Error fetching details:', error);
+      }
+    };
+
+    fetchDetails();
+  }, [customerId, cusDate]);
 
   const handleViewClick = () => {
     navigate(`/view-full-details/${customerId}`);
   };
 
-  if (!detailId) {
+  if (!cusDate) {
     return <p>No details available.</p>;
   }
 
-  const detailsArray = [...Object.values(detailId)].sort((a, b) => {
-    const aTime = a.timestamp ? new Date(a.timestamp).getTime() : 0;
-    const bTime = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-    return aTime - bTime;
-  });
+  let detailsArray = [];
+  if (cusDate) {
+    detailsArray = [...Object.values(cusDate)].sort((a, b) => {
+      const aTime = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+      const bTime = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+      return aTime - bTime;
+    });
+  }
+  console.log('detailsArray', detailsArray);
 
   const totalPieces = detailsArray.reduce(
     (total, detail) => total + Number(detail.numOfPieces),
@@ -48,6 +85,9 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
                 Date
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                CusDate
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                 Pieces
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -76,7 +116,16 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
                 }
                 className="cursor-pointer"
               >
-                <td className="whitespace-nowrap px-6 py-4">{detail.date}</td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.date
+                    ? detail.date.split('-').reverse().join('-')
+                    : ''}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {detail.cusDate
+                    ? detail.cusDate.split('-').reverse().join('-')
+                    : ''}
+                </td>
                 <td className="whitespace-nowrap px-6 py-4">
                   {detail.numOfPieces}
                 </td>
@@ -103,6 +152,7 @@ const CustomerFullDetails = ({ detailId, customerId }) => {
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                 Total
               </th>
+              <td className="whitespace-nowrap px-6 py-4"></td>
               <td className="whitespace-nowrap px-6 py-4">{totalPieces}</td>
               <td className="whitespace-nowrap px-6 py-4">{cusWeight}</td>
               <td className="whitespace-nowrap px-6 py-4">{totalWeight}</td>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from '../../redux/auth/auth';
 import './LoginCard.css';
+import img from '../../Image/Murgan.jpg';
 
 const LoginCard = () => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -21,9 +22,18 @@ const LoginCard = () => {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div
+      className="flex h-screen items-end justify-end"
+      style={{
+        backgroundImage: `url(${img})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        opacity: '0.9',
+      }}
+    >
       <div className={`card ${isFlipped ? 'flipped' : ''}`}>
-        <div className="front flex items-center justify-center rounded-2xl bg-blue-500 text-white">
+        <div className="front flex items-center justify-center rounded-2xl bg-transparent text-white">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="mb-4 text-lg font-semibold">Hello 👏 Mohan Kumar</h2>
             <p className="mb-4">Welcome Back 👍</p>
@@ -35,7 +45,7 @@ const LoginCard = () => {
             </button>
           </div>
         </div>
-        <div className="back flex flex-col items-center justify-center rounded-2xl bg-blue-500 text-white">
+        <div className="back flex flex-col items-center justify-center rounded-2xl bg-transparent text-white">
           <form className="space-y-4 p-10" onSubmit={handleLogin}>
             <input
               type="text"

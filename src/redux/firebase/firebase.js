@@ -76,9 +76,13 @@ const addCustomerDetails = async (customerId, details) => {
   }
 
   try {
+    const formattedCusDate = details.cusDate.replace(/-/g, '');
+
+    const detailsId = formattedCusDate;
+
     const customerDetailsRef = ref(
       db,
-      `customers/${customerId}/details/${details.id}`,
+      `customers/${customerId}/details/${detailsId}/${details.id}`,
     );
     const timestamp = Date.now();
     await set(customerDetailsRef, { ...details, timestamp });
@@ -99,12 +103,21 @@ const getAllCustomerDetails = async (customerId) => {
 
     if (snapshot.exists()) {
       const detailsData = snapshot.val();
-      const detailsArray = Object.keys(detailsData)
-        .map((key) => ({
-          id: key,
-          ...detailsData[key],
-        }))
-        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      let detailsArray = [];
+
+      for (let cusDate in detailsData) {
+        for (let detailId in detailsData[cusDate]) {
+          detailsArray.push({
+            id: detailId,
+            ...detailsData[cusDate][detailId],
+          });
+        }
+      }
+
+      detailsArray = detailsArray.sort(
+        (a, b) => (b.timestamp || 0) - (a.timestamp || 0),
+      );
+
       console.log('Details:', detailsArray);
       return detailsArray;
     } else {
@@ -117,12 +130,15 @@ const getAllCustomerDetails = async (customerId) => {
   }
 };
 
-const getCustomerDetail = async (customerId, detailId) => {
+const getCustomerDetail = async (customerId, cusDate, detailId) => {
   console.log('Fetching detail with ID:', detailId);
 
   try {
     const db = getDatabase();
-    const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
+    const detailRef = ref(
+      db,
+      `customers/${customerId}/details/${cusDate}/${detailId}`,
+    );
 
     const snapshot = await get(detailRef);
 
@@ -140,8 +156,16 @@ const getCustomerDetail = async (customerId, detailId) => {
   }
 };
 
-const editCustomerDetail = async (customerId, detailId, newDetailData) => {
-  const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
+const editCustomerDetail = async (
+  customerId,
+  cusDate,
+  detailId,
+  newDetailData,
+) => {
+  const detailRef = ref(
+    db,
+    `customers/${customerId}/details/${cusDate}/${detailId}`,
+  );
 
   try {
     await update(detailRef, newDetailData);
@@ -152,8 +176,11 @@ const editCustomerDetail = async (customerId, detailId, newDetailData) => {
   }
 };
 
-const deleteCustomerDetail = async (customerId, detailId) => {
-  const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
+const deleteCustomerDetail = async (customerId, cusDate, detailId) => {
+  const detailRef = ref(
+    db,
+    `customers/${customerId}/details/${cusDate}/${detailId}`,
+  );
 
   try {
     await remove(detailRef);
