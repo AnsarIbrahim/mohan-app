@@ -9,12 +9,14 @@ import ViewFullDetails from './components/Dashboard/Customers/ViewFullDetails';
 import CustomerForm from './components/Dashboard/Customers/CustomerForm';
 import EditCustomerDetails from './components/Dashboard/Customers/EditCustomerDetails';
 import ProtectedRoute from './components/User/ProductedRoute';
+// import TemplateInvoice from './components/Utils/Template/TemplateInvoice';
 
 function App() {
   return (
-    <div className="bg-slate-400">
+    <div className="bg-zinc-50">
       <Router>
         <Routes>
+          {/* <Route path="/" element={<TemplateInvoice />} /> */}
           <Route path="/" element={<LoginCard />} />
           <Route
             path="/dashboard"
