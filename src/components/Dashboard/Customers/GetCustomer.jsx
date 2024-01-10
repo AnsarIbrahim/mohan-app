@@ -66,7 +66,12 @@ const GetCustomer = () => {
           </motion.div>
           <div className="mt-2 bg-gray-100 px-4 py-2">
             <div className="mb-1 flex items-center justify-center text-sm font-bold text-gray-700">
-              <button onClick={handleAddInfoClick}>Add Info</button>
+              <button
+                onClick={handleAddInfoClick}
+                className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              >
+                Add Info
+              </button>
             </div>
           </div>
         </div>

@@ -5,35 +5,27 @@ import { useNavigate } from 'react-router-dom';
 const CustomerEnterDetails = ({ details, customerId }) => {
   const navigate = useNavigate();
 
-  const handleClick = (cusDate) => {
-    console.log('cusDate', cusDate);
-    navigate(`/customer-full-details/${customerId}/${cusDate}`);
+  const handleClick = (detailId) => {
+    navigate(`/customer-full-details/${customerId}/${detailId}`);
   };
+
   if (!details) {
     return <p>No details available.</p>;
   }
 
   const detailsArray = Object.entries(details)
-    .flatMap(([date, detailsOnDate]) =>
-      Object.values(detailsOnDate).map((detail) => ({
+    .map(([date, detailsOnDate]) => ({
+      id: date,
+      details: Object.values(detailsOnDate).map((detail) => ({
         ...detail,
         id: Object.keys(detailsOnDate).find(
           (key) => detailsOnDate[key] === detail,
         ),
       })),
-    )
-    .reduce((unique, item) => {
-      return unique.find((detail) => detail.cusDate === item.cusDate)
-        ? unique
-        : [...unique, item];
-    }, [])
+    }))
     .sort((a, b) => {
-      const aTime = new Date(
-        a.cusDate.split('-').reverse().join('-'),
-      ).getTime();
-      const bTime = new Date(
-        b.cusDate.split('-').reverse().join('-'),
-      ).getTime();
+      const aTime = new Date(a.id.split('-').reverse().join('-')).getTime();
+      const bTime = new Date(b.id.split('-').reverse().join('-')).getTime();
       return bTime - aTime;
     });
 
@@ -48,15 +40,21 @@ const CustomerEnterDetails = ({ details, customerId }) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          {detailsArray.map((detail) => (
-            <tr
-              key={detail.id}
-              onClick={() => handleClick(detail.cusDate)}
-              className="cursor-pointer"
-            >
-              <td className="whitespace-nowrap px-6 py-4">{detail.cusDate}</td>
-            </tr>
-          ))}
+          {detailsArray.map((detail) => {
+            const formattedId = `${detail.id.substring(
+              6,
+              8,
+            )}/${detail.id.substring(4, 6)}/${detail.id.substring(0, 4)}`;
+            return (
+              <tr
+                key={detail.id}
+                onClick={() => handleClick(detail.id)}
+                className="cursor-pointer"
+              >
+                <td className="whitespace-nowrap px-6 py-4">{formattedId}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

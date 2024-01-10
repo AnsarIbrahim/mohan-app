@@ -11,7 +11,7 @@ import Toast from '../../Utils/Toast';
 
 const EditCustomerDetails = () => {
   const { customerId, detailId } = useParams();
-  const [detail, setDetail] = useState(null);
+  const [detail, setDetail] = useState({});
   const [customer, setCustomer] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -23,16 +23,12 @@ const EditCustomerDetails = () => {
         const fetchedDetail = await getCustomerDetail(customerId, detailId);
         const fetchedCustomer = await getCustomer(customerId);
 
-        if (fetchedDetail.date) {
-          const date = new Date(fetchedDetail.date);
-          if (!isNaN(date)) {
-            fetchedDetail.date = date.toISOString().split('T')[0];
-          } else {
-            console.error('Invalid date:', fetchedDetail.date);
-          }
-        }
+        const dateKey = Object.keys(fetchedDetail)[0];
 
-        setDetail(fetchedDetail);
+        const idKey = Object.keys(fetchedDetail[dateKey])[0];
+
+        setDetail(fetchedDetail[dateKey][idKey]);
+
         setCustomer(fetchedCustomer);
       } catch (error) {
         console.error('Error fetching detail:', error);
@@ -43,8 +39,8 @@ const EditCustomerDetails = () => {
   }, [customerId, detailId]);
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    setDetail({ ...detail, [event.target.name]: value });
+    const { name, value } = event.target;
+    setDetail((prevDetail) => ({ ...prevDetail, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
@@ -56,14 +52,16 @@ const EditCustomerDetails = () => {
       setToastMessage('Detail updated successfully');
       setIsToastVisible(true);
       setTimeout(() => {
-        navigate('/getCustomer', { state: { customer } });
+        navigate(`/customer-full-details/${customerId}/${detailId}`, {
+          state: { customer },
+        });
       }, 3000);
     } catch (error) {
       console.error('Error updating detail:', error);
     }
   };
 
-  if (!detail) {
+  if (!detail || !customer) {
     return <div>Loading...</div>;
   }
 
@@ -74,7 +72,10 @@ const EditCustomerDetails = () => {
         isVisible={isToastVisible}
         setIsVisible={setIsToastVisible}
       />
-      <Navbar backRoute="/getCustomer" customer={customer} />
+      <Navbar
+        backRoute={`/customer-full-details/${customerId}/${detailId}`}
+        customer={customer}
+      />
       <div className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="m-3 w-full max-w-4xl overflow-hidden rounded-xl bg-white p-5 shadow-md md:max-w-5xl lg:max-w-6xl">
           <h2 className="mb-5 text-2xl font-bold text-gray-900">
@@ -82,21 +83,11 @@ const EditCustomerDetails = () => {
           </h2>
           <form onSubmit={handleSubmit} className="space-y-3">
             <label className="block">
-              <span className="text-gray-700">Date:</span>
-              <input
-                type="date"
-                name="date"
-                value={detail.date}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              />
-            </label>
-            <label className="block">
               <span className="text-gray-700">Number of Pieces:</span>
               <input
                 type="number"
                 name="numOfPieces"
-                value={detail.numOfPieces}
+                value={detail?.numOfPieces}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
@@ -106,7 +97,7 @@ const EditCustomerDetails = () => {
               <input
                 type="number"
                 name="totalWeight"
-                value={detail.totalWeight}
+                value={detail?.totalWeight}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
@@ -116,7 +107,7 @@ const EditCustomerDetails = () => {
               <input
                 type="text"
                 name="delivery"
-                value={detail.delivery}
+                value={detail?.delivery}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
@@ -126,7 +117,7 @@ const EditCustomerDetails = () => {
               <input
                 type="number"
                 name="wastage"
-                value={detail.wastage}
+                value={detail?.wastage}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
@@ -136,7 +127,7 @@ const EditCustomerDetails = () => {
               <input
                 type="number"
                 name="balance"
-                value={detail.balance}
+                value={detail?.balance}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
