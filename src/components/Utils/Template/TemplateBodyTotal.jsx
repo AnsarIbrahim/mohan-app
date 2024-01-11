@@ -3,7 +3,10 @@ import React from 'react';
 const TemplateBodyTotal = () => {
   return (
     <>
-      <div className="mb-3 flex items-center justify-center">
+      <div className="mb-3 flex items-center justify-around">
+        <div className="">
+          <textarea name="text" id="" cols="30" rows="10"></textarea>
+        </div>
         <table className="mt-5 w-[50%] table-auto border-separate rounded-lg border border-slate-400">
           <tbody>
             <tr>

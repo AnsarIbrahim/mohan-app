@@ -43,6 +43,7 @@ const GetCustomer = () => {
   return (
     <>
       <Navbar backRoute="/getCustomers" customer={customer} />
+
       <div className="flex flex-wrap justify-center p-4">
         <div className="m-4 max-w-xs overflow-hidden rounded-lg bg-white shadow-xl">
           <motion.div
@@ -76,9 +77,10 @@ const GetCustomer = () => {
           </div>
         </div>
       </div>
+
       <CustomerEnterDetails
-        details={customer.details}
         customerId={customer.id}
+        details={customer.details}
       />
     </>
   );

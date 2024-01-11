@@ -135,7 +135,7 @@ const getCustomerDetail = async (customerId, detailId) => {
     const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
     const snapshot = await get(detailRef);
     if (snapshot.exists()) {
-      return { [detailId]: snapshot.val() }; // Wrap the detail in an object with the detail id as a key
+      return { [detailId]: snapshot.val() };
     } else {
       console.error(
         `Details not found for customerId: ${customerId} detailId: ${detailId}`,

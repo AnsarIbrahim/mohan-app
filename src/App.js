@@ -11,14 +11,13 @@ import EditCustomerDetails from './components/Dashboard/Customers/EditCustomerDe
 import ProtectedRoute from './components/User/ProductedRoute';
 import GetCustomers from './components/Dashboard/Customers/GetCustomers';
 import CustomerFullDetails from './components/Dashboard/Customers/CustomerFullDetails';
-// import TemplateInvoice from './components/Utils/Template/TemplateInvoice';
+import TemplateInvoice from './components/Utils/Template/TemplateInvoice';
 
 function App() {
   return (
     <div className="bg-zinc-50">
       <Router>
         <Routes>
-          {/* <Route path="/" element={<TemplateInvoice />} /> */}
           <Route path="/" element={<LoginCard />} />
           <Route
             path="/dashboard"
@@ -97,6 +96,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ViewFullDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/template-invoice/:customerId"
+            element={
+              <ProtectedRoute>
+                <TemplateInvoice />
               </ProtectedRoute>
             }
           />

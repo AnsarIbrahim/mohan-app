@@ -3,42 +3,67 @@ import TemplateHead from './TemplateHead';
 import TemplateSubHead from './TemplateSubHead';
 import TemplateBodyTotal from './TemplateBodyTotal';
 
-const generateData = () => {
-  const data = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      no: i,
-      date: `2024/01/${i < 10 ? '0' + i : i}`,
-      pcs: i,
-      cusWeight: i * 2,
-      userWeight: i * 3,
-      delivery: i * 4,
-      wastage: i * 5,
-      balance: i * 6,
-    });
-  }
-  return data;
-};
-
 const chunkArray = (arr, size) => {
   const result = [];
-  while (arr.length) {
-    result.push(arr.splice(0, size));
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
   }
   return result;
 };
 
-const TemplateBody = () => {
-  const data = generateData();
-  const dataChunks = chunkArray(data, 25);
+const TemplateBody = ({ customer, details }) => {
+  const allDetails = [].concat(
+    ...Object.values(details).map((detailGroup) => detailGroup.details),
+  );
+
+  if (!Array.isArray(allDetails) || allDetails.length === 0) {
+    return <div>No details available</div>;
+  }
+
+  const itemsPerPage = 25;
+  const dataChunks = chunkArray(allDetails, itemsPerPage);
+
+  const totalPcs = allDetails.reduce(
+    (total, item) => total + (Number(item.numOfPieces) || 0),
+    0,
+  );
+
+  const totalCusWeight = allDetails.reduce(
+    (total, item) => total + (Number(item.cusWeight) || 0),
+    0,
+  );
+
+  const totalUserWeight = allDetails.reduce(
+    (total, item) => total + (Number(item.totalWeight) || 0),
+    0,
+  );
+
+  const totalDelivery = allDetails.reduce(
+    (total, item) => total + (Number(item.delivery) || 0),
+    0,
+  );
+
+  const totalWastage = allDetails.reduce(
+    (total, item) => total + (Number(item.wastage) || 0),
+    0,
+  );
+
+  const totalBalance = allDetails.reduce(
+    (total, item) => total + (Number(item.balance) || 0),
+    0,
+  );
   return (
     <>
-      {dataChunks.map((chunk, i) => (
-        <div key={i} className="template-body p-2">
+      {dataChunks.map((chunk, j) => (
+        <div className="template-body p-2" style={{ pageBreakAfter: 'always' }}>
           <div className="rounded-xl border-2 border-zinc-400">
             <TemplateHead />
-            <TemplateSubHead />
-            <div className="flex flex-col items-center justify-center">
+            <TemplateSubHead customerId={customer} details={details} />
+
+            <div
+              key={j}
+              className="mb-5 flex flex-col items-center justify-center"
+            >
               <table className="table-auto border-collapse border border-slate-400">
                 <thead className="">
                   <tr className="">
@@ -72,19 +97,19 @@ const TemplateBody = () => {
                   {chunk.map((item, index) => (
                     <tr key={index} className="">
                       <td className="border border-slate-300 py-1 pb-2 text-center  text-sm">
-                        {item.no}
+                        {index + 1}
                       </td>
                       <td className="border border-slate-300 px-3 py-1 pb-2  text-center text-sm">
-                        {item.date}
+                        {item.cusDate.split('-').reverse().join('-')}
                       </td>
                       <td className=" border border-slate-300 py-1 pb-2  text-center text-sm">
-                        {item.pcs}
+                        {item.numOfPieces}
                       </td>
                       <td className=" border border-slate-300 py-1 pb-2  text-center text-sm">
                         {item.cusWeight}
                       </td>
                       <td className=" border border-slate-300 py-1 pb-2  text-center text-sm">
-                        {item.userWeight}
+                        {item.totalWeight}
                       </td>
                       <td className=" border border-slate-300 py-1 pb-2  text-center text-sm">
                         {item.delivery}
@@ -98,44 +123,50 @@ const TemplateBody = () => {
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="p-3">
-                  <tr>
-                    <th className=" border border-slate-300 p-2 py-1 pb-2 text-center text-base">
-                      Total
-                    </th>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                    </td>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                      10
-                    </td>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                      10
-                    </td>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                      10
-                    </td>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                      10
-                    </td>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                      10
-                    </td>
-                    <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
-                      {' '}
-                      10
-                    </td>
-                  </tr>
-                </tfoot>
+                {j === dataChunks.length - 1 && (
+                  <tfoot className="p-3">
+                    <tr>
+                      <th className=" border border-slate-300 p-2 py-1 pb-2 text-center text-base">
+                        Total
+                      </th>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                      </td>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                        {totalPcs}
+                      </td>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                        {totalCusWeight}
+                      </td>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                        {totalUserWeight}
+                      </td>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                        {totalDelivery}
+                      </td>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                        {totalWastage}
+                      </td>
+                      <td className=" border border-slate-300 py-1 pb-2 text-center text-base">
+                        {' '}
+                        {totalBalance}
+                      </td>
+                    </tr>
+                  </tfoot>
+                )}
               </table>
             </div>
-            <hr className="mt-5 w-full border-t-red-200" />
-            <TemplateBodyTotal />
+            {j === dataChunks.length - 1 && (
+              <>
+                <hr className="mt-5 w-full border-t-red-200" />
+                <TemplateBodyTotal />
+              </>
+            )}
           </div>
         </div>
       ))}

@@ -1,11 +1,17 @@
 import React, { useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { FaShare } from 'react-icons/fa6';
 import { IoIosCloudDownload } from 'react-icons/io';
 import TemplateBody from './TemplateBody';
+import Navbar from '../../Navbar/Navbar';
 
-const TemplateOne = ({ invoice }) => {
+const TemplateOne = () => {
+  const location = useLocation();
+  const customerId = location.pathname.split('/').pop();
+  const filteredDetails = location.state.details;
+
   const templateRef = useRef();
 
   const handleDownload = async () => {
@@ -43,7 +49,6 @@ const TemplateOne = ({ invoice }) => {
 
     const bodies = templateRef.current.querySelectorAll('.template-body');
 
-    // Render all pages before converting to blob
     for (let i = 0; i < bodies.length; i++) {
       if (i > 0) {
         pdf.addPage();
@@ -51,15 +56,12 @@ const TemplateOne = ({ invoice }) => {
       await renderAndAddPage(bodies[i]);
     }
 
-    // Convert the entire PDF to a blob
     const pdfBlob = pdf.output('blob');
 
-    // Create a File from the Blob
     const pdfFile = new File([pdfBlob], 'download.pdf', {
       type: 'application/pdf',
     });
 
-    // Check if the Web Share API is supported
     if (navigator.share) {
       const shareData = {
         files: [pdfFile],
@@ -71,16 +73,15 @@ const TemplateOne = ({ invoice }) => {
         await navigator.share(shareData);
       } catch (error) {
         console.error('Error sharing:', error.message);
-        // Handle the error, if needed
       }
     } else {
-      // Fallback for browsers that do not support the Web Share API
       window.open(URL.createObjectURL(pdfBlob), '_blank');
     }
   };
 
   return (
     <>
+      <Navbar />
       <div className="flex items-center justify-center">
         <div
           ref={templateRef}
@@ -88,7 +89,7 @@ const TemplateOne = ({ invoice }) => {
           style={{ width: '794px', overflow: 'auto' }}
         >
           <div className="max-h-full w-full overflow-x-auto rounded-xl border-2 border-zinc-400 p-3">
-            <TemplateBody />
+            <TemplateBody customer={customerId} details={filteredDetails} />
           </div>
         </div>
       </div>

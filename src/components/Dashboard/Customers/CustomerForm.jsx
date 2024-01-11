@@ -79,7 +79,7 @@ const CustomerForm = () => {
       setIsToastVisible(true);
       setTimeout(() => {
         navigate('/getCustomer', { state: { customer } });
-      }, 3000);
+      }, 1000);
     } catch (error) {
       console.error('Error updating customer: ', error);
     }

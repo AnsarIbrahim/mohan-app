@@ -25,7 +25,7 @@ const CustomerFullDetails = () => {
       try {
         const details = await getCustomerDetail(customerId, detailId);
         if (details) {
-          setCustomerDetails([details]);
+          setCustomerDetails((prevDetails) => ({ ...prevDetails, ...details }));
         } else {
           console.error('No details found for this customer');
         }
@@ -109,61 +109,60 @@ const CustomerFullDetails = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {Array.isArray(customerDetails) && customerDetails.length > 0 ? (
-              customerDetails.map((detail, index) => {
-                const date = Object.keys(detail)[0];
-                const uuid = Object.keys(detail[date])[0];
-                const actualDetail = detail[date][uuid];
-                const key = `${date}-${uuid}`;
-                return (
-                  <tr key={key} className="cursor-pointer">
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.cusDate
-                        ? actualDetail.cusDate.split('-').reverse().join('-')
-                        : ''}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.numOfPieces}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.cusWeight}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.totalWeight}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.delivery}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.wastage}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {actualDetail.balance}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering row's onClick
-                          handleEdit(actualDetail.id);
-                        }}
-                        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering row's onClick
-                          handleDelete(actualDetail);
-                        }}
-                        className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
+            {Object.values(customerDetails).length > 0 ? (
+              Object.entries(customerDetails).map(([date, details], index) => {
+                return Object.entries(details).map(([id, detail], subIndex) => {
+                  const key = `${date}-${id}-${subIndex}`;
+                  return (
+                    <tr key={key} className="cursor-pointer">
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.cusDate
+                          ? detail.cusDate.split('-').reverse().join('-')
+                          : ''}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.numOfPieces}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.cusWeight}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.totalWeight}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.delivery}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.wastage}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {detail.balance}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent triggering row's onClick
+                            handleEdit(detail.id);
+                          }}
+                          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent triggering row's onClick
+                            handleDelete(detail);
+                          }}
+                          className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                });
               })
             ) : (
               <tr>
