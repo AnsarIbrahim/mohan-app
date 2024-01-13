@@ -1,11 +1,19 @@
 import React from 'react';
 
-const TemplateBodyTotal = () => {
+const TemplateBodyTotal = ({ recive, issue, waste, balance }) => {
+  const textareaRef = React.useRef();
   return (
     <>
       <div className="mb-3 flex items-center justify-around">
-        <div className="">
-          <textarea name="text" id="" cols="30" rows="10"></textarea>
+        <div className="flex items-center justify-center">
+          <textarea
+            ref={textareaRef}
+            name="text"
+            cols="30"
+            rows="10"
+            className="h-32 w-full rounded-lg border px-3 py-2 text-gray-700 focus:outline-none"
+            placeholder="Enter text here..."
+          ></textarea>
         </div>
         <table className="mt-5 w-[50%] table-auto border-separate rounded-lg border border-slate-400">
           <tbody>
@@ -14,15 +22,15 @@ const TemplateBodyTotal = () => {
                 Received
               </th>
               <td className="rounded-lg border border-slate-300 py-1  pb-2 text-center text-sm">
-                100
+                {recive}
               </td>
             </tr>
             <tr>
               <th className="rounded-lg border border-slate-300 py-1  pb-2 text-sm">
-                Return
+                Issued
               </th>
               <td className="rounded-lg border border-slate-300 py-1  pb-2 text-center text-sm">
-                98
+                {issue}
               </td>
             </tr>
             <tr>
@@ -30,7 +38,7 @@ const TemplateBodyTotal = () => {
                 Wastage
               </th>
               <td className="rounded-lg border border-slate-300 py-1  pb-2 text-center text-sm">
-                1
+                {waste}
               </td>
             </tr>
             <tr>
@@ -38,7 +46,7 @@ const TemplateBodyTotal = () => {
                 Balance
               </th>
               <td className="rounded-lg border border-slate-300 py-1  pb-2 text-center text-sm">
-                1
+                {balance}
               </td>
             </tr>
           </tbody>

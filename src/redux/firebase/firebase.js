@@ -10,16 +10,28 @@ import {
 } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
+// const firebaseConfig = {
+//   apiKey: 'AIzaSyDYTzQGpzxJ8vP-uPlrNXh94vXq90AC_Ek',
+//   authDomain: 'mohankumargoldsmitth.firebaseapp.com',
+//   databaseURL:
+//     'https://mohankumargoldsmitth-default-rtdb.asia-southeast1.firebasedatabase.app',
+//   projectId: 'mohankumargoldsmitth',
+//   storageBucket: 'mohankumargoldsmitth.appspot.com',
+//   messagingSenderId: '721786706679',
+//   appId: '1:721786706679:web:6d0ccd189af72a5b2e51f2',
+//   measurementId: 'G-V8CKLBPV6E',
+// };
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyDYTzQGpzxJ8vP-uPlrNXh94vXq90AC_Ek',
-  authDomain: 'mohankumargoldsmitth.firebaseapp.com',
+  apiKey: 'AIzaSyCELZuGFS_kdP2ReeQauFITRd5jiOP1EVw',
+  authDomain: 'billing-5e413.firebaseapp.com',
   databaseURL:
-    'https://mohankumargoldsmitth-default-rtdb.asia-southeast1.firebasedatabase.app',
-  projectId: 'mohankumargoldsmitth',
-  storageBucket: 'mohankumargoldsmitth.appspot.com',
-  messagingSenderId: '721786706679',
-  appId: '1:721786706679:web:6d0ccd189af72a5b2e51f2',
-  measurementId: 'G-V8CKLBPV6E',
+    'https://billing-5e413-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'billing-5e413',
+  storageBucket: 'billing-5e413.appspot.com',
+  messagingSenderId: '491202624459',
+  appId: '1:491202624459:web:6e4a5b9301f6d48ef6144e',
+  measurementId: 'G-8TH644NJWM',
 };
 
 const app = initializeApp(firebaseConfig);
@@ -55,7 +67,12 @@ const getCustomers = async () => {
 
 const updateCustomer = async (id, updatedCustomer) => {
   const customerRef = ref(db, `customers/${id}`);
-  set(customerRef, updatedCustomer);
+  const snapshot = await get(customerRef);
+  if (snapshot.exists()) {
+    await update(customerRef, updatedCustomer);
+  } else {
+    console.log(`No customer with id: ${id}`);
+  }
 };
 
 const deleteCustomer = async (email) => {

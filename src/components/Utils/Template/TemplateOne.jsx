@@ -6,6 +6,7 @@ import { FaShare } from 'react-icons/fa6';
 import { IoIosCloudDownload } from 'react-icons/io';
 import TemplateBody from './TemplateBody';
 import Navbar from '../../Navbar/Navbar';
+import { getCustomer } from '../../../redux/firebase/firebase';
 
 const TemplateOne = () => {
   const location = useLocation();
@@ -19,6 +20,14 @@ const TemplateOne = () => {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
+    const textarea = templateRef.current.querySelector('textarea');
+    const text = textarea.value;
+    const div = document.createElement('div');
+    div.textContent = text;
+    div.style.whiteSpace = 'pre-wrap';
+    div.style.width = `${textarea.offsetWidth}px`;
+    textarea.parentNode.replaceChild(div, textarea);
+
     const renderAndAddPage = async (element) => {
       const canvas = await html2canvas(element);
       const imgData = canvas.toDataURL('image/png');
@@ -32,8 +41,12 @@ const TemplateOne = () => {
       }
       await renderAndAddPage(bodies[i]);
     }
+    div.parentNode.replaceChild(textarea, div);
 
-    pdf.save('download.pdf');
+    const customer = await getCustomer(customerId);
+    const customerName = customer.name;
+
+    pdf.save(`${customerName}.pdf`);
   };
 
   const handleShare = async () => {
@@ -41,6 +54,14 @@ const TemplateOne = () => {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
+    const textarea = templateRef.current.querySelector('textarea');
+    const text = textarea.value;
+    const div = document.createElement('div');
+    div.textContent = text;
+    div.style.whiteSpace = 'pre-wrap';
+    div.style.width = `${textarea.offsetWidth}px`;
+    textarea.parentNode.replaceChild(div, textarea);
+
     const renderAndAddPage = async (element) => {
       const canvas = await html2canvas(element);
       const imgData = canvas.toDataURL('image/png');
@@ -56,9 +77,14 @@ const TemplateOne = () => {
       await renderAndAddPage(bodies[i]);
     }
 
+    div.parentNode.replaceChild(textarea, div);
+
+    const customer = await getCustomer(customerId);
+    const customerName = customer.name;
+
     const pdfBlob = pdf.output('blob');
 
-    const pdfFile = new File([pdfBlob], 'download.pdf', {
+    const pdfFile = new File([pdfBlob], `${customerName}.pdf`, {
       type: 'application/pdf',
     });
 

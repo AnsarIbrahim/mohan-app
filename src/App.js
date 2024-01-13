@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginCard from './components/User/LoginCard';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddCustomers from './components/Dashboard/Customers/AddCustomers';
+import EditCustomer from './components/Dashboard/Customers/EditCustomer';
 import GetCustomer from './components/Dashboard/Customers/GetCustomer';
 import CustomerDetails from './components/Dashboard/Customers/CustomerDetails';
 import View from './components/Dashboard/Customers/View';
@@ -32,6 +33,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AddCustomers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-customer/:customerId"
+            element={
+              <ProtectedRoute>
+                <EditCustomer />
               </ProtectedRoute>
             }
           />

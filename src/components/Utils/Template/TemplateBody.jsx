@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TemplateHead from './TemplateHead';
 import TemplateSubHead from './TemplateSubHead';
 import TemplateBodyTotal from './TemplateBodyTotal';
+import { getCustomer } from '../../../redux/firebase/firebase';
 
 const chunkArray = (arr, size) => {
   const result = [];
@@ -12,6 +13,21 @@ const chunkArray = (arr, size) => {
 };
 
 const TemplateBody = ({ customer, details }) => {
+  const [customerName, setCustomerName] = useState(null);
+
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      try {
+        const customerDetails = await getCustomer(customer);
+        setCustomerName(customerDetails);
+      } catch (error) {
+        console.error('Failed to fetch customer:', error);
+      }
+    };
+
+    fetchCustomer();
+  }, [customer]);
+
   const allDetails = [].concat(
     ...Object.values(details).map((detailGroup) => detailGroup.details),
   );
@@ -77,10 +93,10 @@ const TemplateBody = ({ customer, details }) => {
                       Pcs
                     </th>
                     <th className="border border-slate-300 px-3 py-1 pb-2 text-sm">
-                      Cus Weight
+                      {customerName && customerName.name} Wgt
                     </th>
                     <th className="border border-slate-300 px-3 py-1 pb-2 text-sm">
-                      User Weight
+                      Mohan Wgt
                     </th>
                     <th className="border border-slate-300 px-3 py-1 pb-2 text-sm">
                       Delivery
@@ -164,7 +180,12 @@ const TemplateBody = ({ customer, details }) => {
             {j === dataChunks.length - 1 && (
               <>
                 <hr className="mt-5 w-full border-t-red-200" />
-                <TemplateBodyTotal />
+                <TemplateBodyTotal
+                  recive={totalUserWeight}
+                  issue={totalDelivery}
+                  waste={totalWastage}
+                  balance={totalBalance}
+                />
               </>
             )}
           </div>
