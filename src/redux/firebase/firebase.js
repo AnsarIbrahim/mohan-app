@@ -10,16 +10,28 @@ import {
 } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
+// const firebaseConfig = {
+//   apiKey: 'AIzaSyDYTzQGpzxJ8vP-uPlrNXh94vXq90AC_Ek',
+//   authDomain: 'mohankumargoldsmitth.firebaseapp.com',
+//   databaseURL:
+//     'https://mohankumargoldsmitth-default-rtdb.asia-southeast1.firebasedatabase.app',
+//   projectId: 'mohankumargoldsmitth',
+//   storageBucket: 'mohankumargoldsmitth.appspot.com',
+//   messagingSenderId: '721786706679',
+//   appId: '1:721786706679:web:6d0ccd189af72a5b2e51f2',
+//   measurementId: 'G-V8CKLBPV6E',
+// };
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyChzPySF_QhRXiY1YT4wl91aXnJbb1OwiE',
-  authDomain: 'mohan-app-c4bc3.firebaseapp.com',
+  apiKey: 'AIzaSyCELZuGFS_kdP2ReeQauFITRd5jiOP1EVw',
+  authDomain: 'billing-5e413.firebaseapp.com',
   databaseURL:
-    'https://mohan-app-c4bc3-default-rtdb.asia-southeast1.firebasedatabase.app',
-  projectId: 'mohan-app-c4bc3',
-  storageBucket: 'mohan-app-c4bc3.appspot.com',
-  messagingSenderId: '709743714134',
-  appId: '1:709743714134:web:66fb8de10ea378b31440f7',
-  measurementId: 'G-MZEKXXLXHP',
+    'https://billing-5e413-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'billing-5e413',
+  storageBucket: 'billing-5e413.appspot.com',
+  messagingSenderId: '491202624459',
+  appId: '1:491202624459:web:6e4a5b9301f6d48ef6144e',
+  measurementId: 'G-8TH644NJWM',
 };
 
 const app = initializeApp(firebaseConfig);
@@ -55,7 +67,12 @@ const getCustomers = async () => {
 
 const updateCustomer = async (id, updatedCustomer) => {
   const customerRef = ref(db, `customers/${id}`);
-  set(customerRef, updatedCustomer);
+  const snapshot = await get(customerRef);
+  if (snapshot.exists()) {
+    await update(customerRef, updatedCustomer);
+  } else {
+    console.log(`No customer with id: ${id}`);
+  }
 };
 
 const deleteCustomer = async (email) => {
@@ -76,9 +93,13 @@ const addCustomerDetails = async (customerId, details) => {
   }
 
   try {
+    const formattedCusDate = details.cusDate.replace(/-/g, '');
+
+    const detailsId = formattedCusDate;
+
     const customerDetailsRef = ref(
       db,
-      `customers/${customerId}/details/${details.id}`,
+      `customers/${customerId}/details/${detailsId}/${details.id}`,
     );
     const timestamp = Date.now();
     await set(customerDetailsRef, { ...details, timestamp });
@@ -99,12 +120,21 @@ const getAllCustomerDetails = async (customerId) => {
 
     if (snapshot.exists()) {
       const detailsData = snapshot.val();
-      const detailsArray = Object.keys(detailsData)
-        .map((key) => ({
-          id: key,
-          ...detailsData[key],
-        }))
-        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      let detailsArray = [];
+
+      for (let cusDate in detailsData) {
+        for (let detailId in detailsData[cusDate]) {
+          detailsArray.push({
+            id: detailId,
+            ...detailsData[cusDate][detailId],
+          });
+        }
+      }
+
+      detailsArray = detailsArray.sort(
+        (a, b) => (b.timestamp || 0) - (a.timestamp || 0),
+      );
+
       console.log('Details:', detailsArray);
       return detailsArray;
     } else {
@@ -118,49 +148,49 @@ const getAllCustomerDetails = async (customerId) => {
 };
 
 const getCustomerDetail = async (customerId, detailId) => {
-  console.log('Fetching detail with ID:', detailId);
-
   try {
-    const db = getDatabase();
     const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
-
     const snapshot = await get(detailRef);
-
     if (snapshot.exists()) {
-      const detailData = snapshot.val();
-      console.log('Detail:', detailData);
-      return detailData;
+      return { [detailId]: snapshot.val() };
     } else {
-      console.error('Document not found for detail with ID:', detailId);
-      throw new Error('No such document!');
+      console.error(
+        `Details not found for customerId: ${customerId} detailId: ${detailId}`,
+      );
+      return null;
     }
   } catch (error) {
-    console.error('Error fetching detail:', error);
-    throw error;
+    console.error('Error getting customer detail:', error);
   }
 };
 
-const editCustomerDetail = async (customerId, detailId, newDetailData) => {
-  const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
-
+const editCustomerDetail = async (customerId, detailId, detail) => {
   try {
-    await update(detailRef, newDetailData);
-    console.log('Detail updated successfully');
+    const detailRef = ref(
+      db,
+      `customers/${customerId}/details/${detailId}/${detail.id}`,
+    );
+
+    const updatedDetail = { ...detail, timestamp: Date.now() };
+    await update(detailRef, updatedDetail);
+
+    console.log('Customer detail updated successfully');
   } catch (error) {
-    console.error('Error updating detail:', error);
-    throw error;
+    console.error('Error updating customer detail:', error);
   }
 };
 
-const deleteCustomerDetail = async (customerId, detailId) => {
-  const detailRef = ref(db, `customers/${customerId}/details/${detailId}`);
-
+const deleteCustomerDetail = async (customerId, cusDate, detailId) => {
   try {
-    await remove(detailRef);
-    console.log('Detail deleted successfully');
+    const formattedCusDate = cusDate.replace(/-/g, '');
+    const detailsRef = ref(
+      db,
+      `customers/${customerId}/details/${formattedCusDate}/${detailId}`,
+    );
+    await remove(detailsRef);
+    console.log('Customer detail deleted successfully');
   } catch (error) {
-    console.error('Error deleting detail:', error);
-    throw error;
+    console.error('Error deleting customer detail:', error);
   }
 };
 

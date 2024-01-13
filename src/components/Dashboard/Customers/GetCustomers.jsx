@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { getCustomers } from '../../../redux/firebase/firebase';
+import Navbar from '../../Navbar/Navbar';
 
 const GetCustomers = () => {
   const [customers, setCustomers] = useState([]);
@@ -26,28 +28,35 @@ const GetCustomers = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center p-4">
-      {customers &&
-        customers.map((customer, index) => (
-          <div
-            key={index}
-            className="m-4 max-w-xs cursor-pointer overflow-hidden rounded-lg bg-white shadow-xl"
-            onClick={() => handleCardClick(customer)}
-          >
-            <div className="px-4 py-2">
-              <h2 className="mb-2 text-2xl font-bold text-gray-800">
-                {customer.name}
-              </h2>
-              <p className="text-gray-600">{customer.email}</p>
-            </div>
-            <div className="mt-2 bg-gray-100 px-4 py-2">
-              <div className="mb-1 flex items-center justify-center text-sm font-bold text-gray-700">
-                Click to Add
+    <>
+      <Navbar backRoute="/dashboard" />
+      <div className="flex flex-wrap justify-center p-4">
+        {customers &&
+          customers.map((customer, index) => (
+            <motion.div
+              key={index}
+              className="m-4 max-w-xs cursor-pointer overflow-hidden rounded-lg bg-white shadow-xl"
+              onClick={() => handleCardClick(customer)}
+              initial={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <img
+                src={customer.photo}
+                alt={customer.name}
+                className="h-64 w-full object-cover"
+              />
+              <div className="mt-2 bg-gray-100 px-4 py-2">
+                <div className="mb-1 flex items-center justify-center text-sm font-bold text-gray-700">
+                  <h2 className="mb-2 text-2xl font-bold text-gray-800">
+                    {customer.name}
+                  </h2>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
-    </div>
+            </motion.div>
+          ))}
+      </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp } from 'firebase/firestore';
@@ -12,8 +12,11 @@ const CustomerForm = () => {
 
   const [customer, setCustomer] = useState(null);
   const [date] = useState(new Date().toISOString().split('T')[0]);
+  const [cusDate, setCusDate] = useState(
+    new Date().toISOString().split('T')[0],
+  );
   const [numOfPieces, setNumOfPieces] = useState('');
-  const [cusWeight, setCusWeight] = useState(''); // TODO: Remove this
+  const [cusWeight, setCusWeight] = useState('');
   const [totalWeight, setTotalWeight] = useState('');
   const [delivery, setDelivery] = useState('');
   const [wastage, setWastage] = useState('');
@@ -31,6 +34,19 @@ const CustomerForm = () => {
     }
   }, [location, navigate]);
 
+  const calculateBalance = useCallback(() => {
+    const total = parseFloat(totalWeight) || 0;
+    const del = parseFloat(delivery) || 0;
+    const was = parseFloat(wastage) || 0;
+
+    const bal = total - del - was;
+    setBalance(bal.toFixed(2));
+  }, [totalWeight, delivery, wastage]);
+
+  useEffect(() => {
+    calculateBalance();
+  }, [calculateBalance]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,6 +60,9 @@ const CustomerForm = () => {
     const details = {
       id: detailsId,
       date: new Date(Timestamp.fromDate(new Date(date)).seconds * 1000)
+        .toISOString()
+        .split('T')[0],
+      cusDate: new Date(Timestamp.fromDate(new Date(cusDate)).seconds * 1000)
         .toISOString()
         .split('T')[0],
       numOfPieces,
@@ -60,7 +79,7 @@ const CustomerForm = () => {
       setIsToastVisible(true);
       setTimeout(() => {
         navigate('/getCustomer', { state: { customer } });
-      }, 3000);
+      }, 1000);
     } catch (error) {
       console.error('Error updating customer: ', error);
     }
@@ -87,6 +106,15 @@ const CustomerForm = () => {
                 type="date"
                 value={date}
                 readOnly
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">CusDate:</span>
+              <input
+                type="date"
+                value={cusDate}
+                onChange={(e) => setCusDate(e.target.value)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               />
             </label>

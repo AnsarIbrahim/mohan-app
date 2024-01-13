@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { get, ref } from 'firebase/database';
 import { db } from '../../../redux/firebase/firebase';
-import { addCustomer } from '../../../redux/firebase/firebase';
+import { updateCustomer } from '../../../redux/firebase/firebase';
 import Navbar from '../../Navbar/Navbar';
 import Toast from '../../Utils/Toast';
 
-const AddCustomers = ({ customer = {}, onSave }) => {
+const EditCustomer = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState(customer.name || '');
-  const [email, setEmail] = useState(customer.email || '');
-  const [phone, setPhone] = useState(customer.phone || '');
+  const { customerId } = useParams();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [photo, setPhoto] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      const customerRef = ref(db, `customers/${customerId}/details`);
+      const snapshot = await get(customerRef);
+      if (snapshot.exists()) {
+        const customer = snapshot.val();
+        setName(customer.name);
+        setEmail(customer.email);
+        setPhone(customer.phone);
+        if (customer.photo) {
+          setPhoto(customer.photo);
+        }
+      } else {
+        console.error(`No customer found with id: ${customerId}`);
+      }
+    };
+
+    fetchCustomer();
+  }, [customerId]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -29,42 +49,24 @@ const AddCustomers = ({ customer = {}, onSave }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!name || !email || !phone || !photo) {
-      console.error('Name and email and phone and photo are required');
+      console.error('Name, email, phone, and photo are required');
       return;
     }
-    const id = uuidv4();
-    const newCustomer = { id, name, email, phone, photo };
 
-    const customersRef = ref(db, 'customers/');
-    const snapshot = await get(customersRef);
-    const customers = snapshot.val();
-
-    for (let id in customers) {
-      if (customers[id].email === newCustomer.email) {
-        alert('Email already saved. Please try a new one.');
-        return;
-      }
-    }
+    const updatedCustomer = { name, email, phone, photo };
 
     try {
-      const result = await addCustomer(newCustomer);
-      setName('');
-      setEmail('');
-      setPhone('');
-      setPhoto(null);
-      setToastMessage('Customer added successfully');
+      await updateCustomer(customerId, updatedCustomer);
+      setToastMessage('Customer updated successfully');
       setIsToastVisible(true);
       setTimeout(() => {
         navigate('/dashboard');
       }, 3000);
-
-      if (result) {
-        navigate('/dashboard');
-      }
     } catch (error) {
-      console.error('Error adding customer: ', error);
+      console.error('Error updating customer: ', error);
     }
   };
+
   return (
     <>
       <Toast
@@ -81,7 +83,7 @@ const AddCustomers = ({ customer = {}, onSave }) => {
           >
             X
           </button>
-          <h2 className="text-lg font-semibold text-gray-700">Add Customer</h2>
+          <h2 className="text-lg font-semibold text-gray-700">Edit Customer</h2>
 
           <form className="mt-4" onSubmit={handleSubmit}>
             <div className="mb-2 flex flex-col">
@@ -137,4 +139,4 @@ const AddCustomers = ({ customer = {}, onSave }) => {
   );
 };
 
-export default AddCustomers;
+export default EditCustomer;
