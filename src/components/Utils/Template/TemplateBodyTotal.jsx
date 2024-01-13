@@ -52,6 +52,12 @@ const TemplateBodyTotal = ({ recive, issue, waste, balance }) => {
           </tbody>
         </table>
       </div>
+      <hr className="mb-2 w-full border-t-red-200" />
+      <div className="mb-2 flex items-center justify-center">
+        <p className="text-center text-xs">
+          Created by <span className="text-zinc-400"> Ansar Ibrahim </span>
+        </p>
+      </div>
     </>
   );
 };
