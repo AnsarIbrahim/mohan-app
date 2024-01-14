@@ -10,18 +10,6 @@ import {
 } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
-// const firebaseConfig = {
-//   apiKey: 'AIzaSyDYTzQGpzxJ8vP-uPlrNXh94vXq90AC_Ek',
-//   authDomain: 'mohankumargoldsmitth.firebaseapp.com',
-//   databaseURL:
-//     'https://mohankumargoldsmitth-default-rtdb.asia-southeast1.firebasedatabase.app',
-//   projectId: 'mohankumargoldsmitth',
-//   storageBucket: 'mohankumargoldsmitth.appspot.com',
-//   messagingSenderId: '721786706679',
-//   appId: '1:721786706679:web:6d0ccd189af72a5b2e51f2',
-//   measurementId: 'G-V8CKLBPV6E',
-// };
-
 const firebaseConfig = {
   apiKey: 'AIzaSyCELZuGFS_kdP2ReeQauFITRd5jiOP1EVw',
   authDomain: 'billing-5e413.firebaseapp.com',

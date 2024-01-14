@@ -4,7 +4,7 @@ import img from '../../../Image/Murgan.jpg';
 const TemplateHead = () => {
   return (
     <div>
-      <div className="flex items-center justify-around">
+      <div className="flex flex-col items-center justify-around sm:flex-row">
         <div className="flex items-center gap-x-5">
           <div className=" h-20 w-20 rounded-full">
             <img src={img} alt="Murgan" className="rounded-full" />
@@ -41,7 +41,7 @@ const TemplateHead = () => {
           <p className="font-serif text-5xl font-semibold">INVOICE</p>
         </div>
       </div>
-      <hr className="w-full border-t-red-200" />
+      <hr className="mt-7 w-full border-t-red-200 sm:mt-0" />
     </div>
   );
 };

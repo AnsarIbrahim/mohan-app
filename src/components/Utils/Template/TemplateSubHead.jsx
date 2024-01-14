@@ -42,8 +42,8 @@ const TemplateSubHead = ({ customerId, details }) => {
   return (
     <>
       <div className="">
-        <div className="flex items-center justify-between p-2">
-          <div className="ml-10">
+        <div className="flex flex-col items-center justify-center p-2 sm:flex-row sm:justify-between">
+          <div className="mb-2 sm:mb-0 sm:ml-10">
             <h1 className="font-mono text-sm font-medium text-lime-500">
               BILL TO
             </h1>

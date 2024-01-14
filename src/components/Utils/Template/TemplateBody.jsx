@@ -71,14 +71,17 @@ const TemplateBody = ({ customer, details }) => {
   return (
     <>
       {dataChunks.map((chunk, j) => (
-        <div className="template-body p-2" style={{ pageBreakAfter: 'always' }}>
-          <div className="rounded-xl border-2 border-zinc-400">
+        <div
+          className="template-body w-full p-2"
+          style={{ pageBreakAfter: 'always' }}
+        >
+          <div className="w-full rounded-xl border-2 border-zinc-400">
             <TemplateHead />
             <TemplateSubHead customerId={customer} details={details} />
 
             <div
               key={j}
-              className="mb-5 flex flex-col items-center justify-center"
+              className="justify-center overflow-auto sm:overflow-visible"
             >
               <table className="table-auto border-collapse border border-slate-400">
                 <thead className="">

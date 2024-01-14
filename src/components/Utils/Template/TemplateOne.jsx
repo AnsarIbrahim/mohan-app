@@ -111,19 +111,16 @@ const TemplateOne = () => {
       <div className="flex items-center justify-center">
         <div
           ref={templateRef}
-          className="flex items-center justify-center p-5"
-          style={{ width: '794px', overflow: 'auto' }}
+          className="mx-auto flex items-center justify-center p-5"
+          style={{ width: '100%', overflow: 'auto' }}
         >
-          <div className="max-h-full w-full overflow-x-auto rounded-xl border-2 border-zinc-400 p-3">
+          <div className="md:max-w-custom-lg w-full max-w-full overflow-x-auto rounded-xl border-2 border-zinc-400 p-3 sm:max-w-md lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
             <TemplateBody customer={customerId} details={filteredDetails} />
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center">
-        <div
-          className="flex items-center justify-around p-5"
-          style={{ width: '794px' }}
-        >
+      <div className="flex w-full items-center justify-center">
+        <div className="flex w-full items-center justify-around space-x-10 p-5">
           <div className="mb-3 mt-3">
             <button
               onClick={handleDownload}
