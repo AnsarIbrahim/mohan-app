@@ -85,7 +85,7 @@ function App() {
             }
           />
           <Route
-            path="/edit-customer-detail/:customerId/:detailId/:cusDate"
+            path="/edit-customer-detail/:customerId/:detailId/:id"
             element={
               <ProtectedRoute>
                 <EditCustomerDetails />

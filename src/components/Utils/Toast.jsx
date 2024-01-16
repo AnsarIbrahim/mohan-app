@@ -5,7 +5,7 @@ const Toast = ({ message, isVisible, setIsVisible }) => {
     if (isVisible) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-      }, 5000); // Change duration if needed
+      }, 3000);
 
       return () => clearTimeout(timer);
     }

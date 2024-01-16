@@ -10,7 +10,8 @@ import Navbar from '../../Navbar/Navbar';
 import Toast from '../../Utils/Toast';
 
 const EditCustomerDetails = () => {
-  const { customerId, detailId } = useParams();
+  const params = useParams();
+  const { customerId, detailId, id } = params;
   const [detail, setDetail] = useState({});
   const [customer, setCustomer] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
@@ -20,14 +21,16 @@ const EditCustomerDetails = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const fetchedDetail = await getCustomerDetail(customerId, detailId);
+        const fetchedDetail = await getCustomerDetail(customerId, detailId, id);
         const fetchedCustomer = await getCustomer(customerId);
 
-        const dateKey = Object.keys(fetchedDetail)[0];
-
-        const idKey = Object.keys(fetchedDetail[dateKey])[0];
-
-        setDetail(fetchedDetail[dateKey][idKey]);
+        if (fetchedDetail) {
+          const dateKey = Object.keys(fetchedDetail)[0];
+          const detailData = fetchedDetail[dateKey][id];
+          if (detailData) {
+            setDetail({ ...detailData, id });
+          }
+        }
 
         setCustomer(fetchedCustomer);
       } catch (error) {
@@ -36,7 +39,7 @@ const EditCustomerDetails = () => {
     };
 
     fetchDetail();
-  }, [customerId, detailId]);
+  }, [customerId, detailId, id]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -72,10 +75,7 @@ const EditCustomerDetails = () => {
         isVisible={isToastVisible}
         setIsVisible={setIsToastVisible}
       />
-      <Navbar
-        backRoute={`/customer-full-details/${customerId}/${detailId}`}
-        customer={customer}
-      />
+      <Navbar />
       <div className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="m-3 w-full max-w-4xl overflow-hidden rounded-xl bg-white p-5 shadow-md md:max-w-5xl lg:max-w-6xl">
           <h2 className="mb-5 text-2xl font-bold text-gray-900">

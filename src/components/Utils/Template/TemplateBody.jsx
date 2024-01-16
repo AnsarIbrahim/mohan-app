@@ -72,6 +72,7 @@ const TemplateBody = ({ customer, details }) => {
     <>
       {dataChunks.map((chunk, j) => (
         <div
+          key={j}
           className="template-body w-full p-2"
           style={{ pageBreakAfter: 'always' }}
         >

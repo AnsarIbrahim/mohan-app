@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       maxWidth: {
         'custom-lg': '46rem',
+        'sm-screen': '40rem',
       },
     },
   },

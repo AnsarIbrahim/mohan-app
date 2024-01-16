@@ -114,7 +114,7 @@ const TemplateOne = () => {
           className="mx-auto flex items-center justify-center p-5"
           style={{ width: '100%', overflow: 'auto' }}
         >
-          <div className="md:max-w-custom-lg w-full max-w-full overflow-x-auto rounded-xl border-2 border-zinc-400 p-3 sm:max-w-md lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
+          <div className="sm:max-w-sm-screen w-full max-w-full overflow-x-auto rounded-xl border-2 border-zinc-400 p-3 md:max-w-custom-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
             <TemplateBody customer={customerId} details={filteredDetails} />
           </div>
         </div>

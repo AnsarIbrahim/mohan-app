@@ -18,8 +18,14 @@ const CustomerFullDetails = () => {
   const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [isDataEmpty, setIsDataEmpty] = useState(false);
 
   useEffect(() => {
+    if (!detailId) {
+      console.error('Detail ID is undefined');
+      return;
+    }
+
     getCustomer(customerId).then(setCustomer);
     const fetchDetails = async () => {
       try {
@@ -35,10 +41,10 @@ const CustomerFullDetails = () => {
     };
 
     fetchDetails();
-  }, [customerId, detailId]);
+  }, [customerId, detailId, customerDetails]);
 
-  const handleEdit = (detail) => {
-    navigate(`/edit-customer-detail/${customerId}/${detailId}/${detail}`);
+  const handleEdit = (id) => {
+    navigate(`/edit-customer-detail/${customerId}/${detailId}/${id}`);
   };
 
   const handleDelete = async (detail) => {
@@ -48,12 +54,23 @@ const CustomerFullDetails = () => {
     if (confirmDelete) {
       try {
         await deleteCustomerDetail(customerId, detail.cusDate, detail.id);
-        setCustomerDetails(customerDetails.filter((d) => d.id !== detail.id));
+        if (customerDetails && detail.cusDate && detail.id) {
+          const newCustomerDetails = { ...customerDetails };
+          if (
+            newCustomerDetails[detail.cusDate] &&
+            newCustomerDetails[detail.cusDate][detail.id]
+          ) {
+            delete newCustomerDetails[detail.cusDate][detail.id];
+            setCustomerDetails(newCustomerDetails);
+
+            const remainingDetails = Object.values(newCustomerDetails).flat();
+            if (remainingDetails.length === 0) {
+              setIsDataEmpty(true);
+            }
+          }
+        }
         setToastMessage('Detail deleted successfully');
         setIsToastVisible(true);
-        setTimeout(() => {
-          navigate('/getCustomer', { state: { customer } });
-        }, 3000);
       } catch (error) {
         console.error('Error deleting detail:', error);
       }
@@ -96,87 +113,95 @@ const CustomerFullDetails = () => {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="mt-4 w-full table-auto divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th>Date</th>
-              <th>Pieces</th>
-              <th>Cus Weight</th>
-              <th>Weight</th>
-              <th>Delivery</th>
-              <th>Wastage</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
-            {Object.values(customerDetails).length > 0 ? (
-              Object.entries(customerDetails).map(([date, details], index) => {
-                return Object.entries(details).map(([id, detail], subIndex) => {
-                  const key = `${date}-${id}-${subIndex}`;
-                  return (
-                    <tr key={key} className="cursor-pointer">
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.cusDate
-                          ? detail.cusDate.split('-').reverse().join('-')
-                          : ''}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.numOfPieces}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.cusWeight}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.totalWeight}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.delivery}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.wastage}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {detail.balance}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering row's onClick
-                            handleEdit(detail.id);
-                          }}
-                          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                        >
-                          Edit
-                        </button>
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering row's onClick
-                            handleDelete(detail);
-                          }}
-                          className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                });
-              })
-            ) : (
+        {isDataEmpty ? (
+          <p>No data</p>
+        ) : (
+          <table className="mt-4 w-full table-auto divide-y divide-gray-200">
+            <thead className="bg-gray-50">
               <tr>
-                <td colSpan="8">No details found</td>
+                <th>Date</th>
+                <th>Pieces</th>
+                <th>Cus Weight</th>
+                <th>Weight</th>
+                <th>Delivery</th>
+                <th>Wastage</th>
+                <th>Balance</th>
               </tr>
-            )}
-          </tbody>
-          <tfoot className="bg-gray-200">
-            <tr>
-              <th>Total</th>
-              {/* Add total values based on your data structure */}
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {Object.values(customerDetails).length > 0 ? (
+                Object.entries(customerDetails).map(
+                  ([date, details], index) => {
+                    return Object.entries(details).map(
+                      ([id, detail], subIndex) => {
+                        const key = `${date}-${id}-${subIndex}`;
+                        return (
+                          <tr key={key} className="cursor-pointer">
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.cusDate
+                                ? detail.cusDate.split('-').reverse().join('-')
+                                : ''}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.numOfPieces}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.cusWeight}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.totalWeight}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.delivery}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.wastage}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {detail.balance}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent triggering row's onClick
+                                  handleEdit(id);
+                                }}
+                                className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                              >
+                                Edit
+                              </button>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent triggering row's onClick
+                                  handleDelete(detail);
+                                }}
+                                className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      },
+                    );
+                  },
+                )
+              ) : (
+                <tr>
+                  <td colSpan="8">No details found</td>
+                </tr>
+              )}
+            </tbody>
+            <tfoot className="bg-gray-200">
+              <tr>
+                <th>Total</th>
+                {/* Add total values based on your data structure */}
+              </tr>
+            </tfoot>
+          </table>
+        )}
       </div>
       <div className="flex items-center justify-end bg-white pr-6 pt-2"></div>
     </>
