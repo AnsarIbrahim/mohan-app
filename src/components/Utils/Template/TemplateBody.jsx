@@ -39,10 +39,10 @@ const TemplateBody = ({ customer, details }) => {
   const itemsPerPage = 25;
   const dataChunks = chunkArray(allDetails, itemsPerPage);
 
-  const totalPcs = allDetails
-    .reduce((total, item) => total + (Number(item.numOfPieces) || 0), 0)
-    .toFixed(2);
-
+  const totalPcs = allDetails.reduce(
+    (total, item) => total + (Number(item.numOfPieces) || 0),
+    0,
+  );
   const totalCusWeight = allDetails
     .reduce((total, item) => total + (Number(item.cusWeight) || 0), 0)
     .toFixed(2);
