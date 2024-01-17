@@ -39,35 +39,29 @@ const TemplateBody = ({ customer, details }) => {
   const itemsPerPage = 25;
   const dataChunks = chunkArray(allDetails, itemsPerPage);
 
-  const totalPcs = allDetails.reduce(
-    (total, item) => total + (Number(item.numOfPieces) || 0),
-    0,
-  );
+  const totalPcs = allDetails
+    .reduce((total, item) => total + (Number(item.numOfPieces) || 0), 0)
+    .toFixed(2);
 
-  const totalCusWeight = allDetails.reduce(
-    (total, item) => total + (Number(item.cusWeight) || 0),
-    0,
-  );
+  const totalCusWeight = allDetails
+    .reduce((total, item) => total + (Number(item.cusWeight) || 0), 0)
+    .toFixed(2);
 
-  const totalUserWeight = allDetails.reduce(
-    (total, item) => total + (Number(item.totalWeight) || 0),
-    0,
-  );
+  const totalUserWeight = allDetails
+    .reduce((total, item) => total + (Number(item.totalWeight) || 0), 0)
+    .toFixed(2);
 
-  const totalDelivery = allDetails.reduce(
-    (total, item) => total + (Number(item.delivery) || 0),
-    0,
-  );
+  const totalDelivery = allDetails
+    .reduce((total, item) => total + (Number(item.delivery) || 0), 0)
+    .toFixed(2);
 
-  const totalWastage = allDetails.reduce(
-    (total, item) => total + (Number(item.wastage) || 0),
-    0,
-  );
+  const totalWastage = allDetails
+    .reduce((total, item) => total + (Number(item.wastage) || 0), 0)
+    .toFixed(2);
 
-  const totalBalance = allDetails.reduce(
-    (total, item) => total + (Number(item.balance) || 0),
-    0,
-  );
+  const totalBalance = allDetails
+    .reduce((total, item) => total + (Number(item.balance) || 0), 0)
+    .toFixed(2);
   return (
     <>
       {dataChunks.map((chunk, j) => (
