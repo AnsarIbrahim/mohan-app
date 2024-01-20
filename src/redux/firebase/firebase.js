@@ -10,27 +10,27 @@ import {
 } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCELZuGFS_kdP2ReeQauFITRd5jiOP1EVw',
-  authDomain: 'billing-5e413.firebaseapp.com',
-  databaseURL:
-    'https://billing-5e413-default-rtdb.asia-southeast1.firebasedatabase.app',
-  projectId: 'billing-5e413',
-  storageBucket: 'billing-5e413.appspot.com',
-  messagingSenderId: '491202624459',
-  appId: '1:491202624459:web:6e4a5b9301f6d48ef6144e',
-  measurementId: 'G-8TH644NJWM',
-};
 // const firebaseConfig = {
-//   apiKey: 'AIzaSyA83y8ql7PTRBRsEyJyixVF80YtHPwI2f4',
-//   authDomain: 'mohan-4269a.firebaseapp.com',
+//   apiKey: 'AIzaSyCELZuGFS_kdP2ReeQauFITRd5jiOP1EVw',
+//   authDomain: 'billing-5e413.firebaseapp.com',
 //   databaseURL:
-//     'https://mohan-4269a-default-rtdb.asia-southeast1.firebasedatabase.app',
-//   projectId: 'mohan-4269a',
-//   storageBucket: 'mohan-4269a.appspot.com',
-//   messagingSenderId: '275537933180',
-//   appId: '1:275537933180:web:fbb633cc10e7d197fbaaf9',
+//     'https://billing-5e413-default-rtdb.asia-southeast1.firebasedatabase.app',
+//   projectId: 'billing-5e413',
+//   storageBucket: 'billing-5e413.appspot.com',
+//   messagingSenderId: '491202624459',
+//   appId: '1:491202624459:web:6e4a5b9301f6d48ef6144e',
+//   measurementId: 'G-8TH644NJWM',
 // };
+const firebaseConfig = {
+  apiKey: 'AIzaSyA83y8ql7PTRBRsEyJyixVF80YtHPwI2f4',
+  authDomain: 'mohan-4269a.firebaseapp.com',
+  databaseURL:
+    'https://mohan-4269a-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'mohan-4269a',
+  storageBucket: 'mohan-4269a.appspot.com',
+  messagingSenderId: '275537933180',
+  appId: '1:275537933180:web:fbb633cc10e7d197fbaaf9',
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
