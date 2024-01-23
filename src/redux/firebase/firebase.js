@@ -11,25 +11,26 @@ import {
 import { getAuth } from 'firebase/auth';
 
 // const firebaseConfig = {
-//   apiKey: 'AIzaSyCELZuGFS_kdP2ReeQauFITRd5jiOP1EVw',
-//   authDomain: 'billing-5e413.firebaseapp.com',
+//   apiKey: 'AIzaSyA83y8ql7PTRBRsEyJyixVF80YtHPwI2f4',
+//   authDomain: 'mohan-4269a.firebaseapp.com',
 //   databaseURL:
-//     'https://billing-5e413-default-rtdb.asia-southeast1.firebasedatabase.app',
-//   projectId: 'billing-5e413',
-//   storageBucket: 'billing-5e413.appspot.com',
-//   messagingSenderId: '491202624459',
-//   appId: '1:491202624459:web:6e4a5b9301f6d48ef6144e',
-//   measurementId: 'G-8TH644NJWM',
+//     'https://mohan-4269a-default-rtdb.asia-southeast1.firebasedatabase.app',
+//   projectId: 'mohan-4269a',
+//   storageBucket: 'mohan-4269a.appspot.com',
+//   messagingSenderId: '275537933180',
+//   appId: '1:275537933180:web:fbb633cc10e7d197fbaaf9',
 // };
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyA83y8ql7PTRBRsEyJyixVF80YtHPwI2f4',
-  authDomain: 'mohan-4269a.firebaseapp.com',
+  apiKey: 'AIzaSyBNxftkP8HQOQMN4NtT2pot99naB7exmx4',
+  authDomain: 'summa-f930c.firebaseapp.com',
   databaseURL:
-    'https://mohan-4269a-default-rtdb.asia-southeast1.firebasedatabase.app',
-  projectId: 'mohan-4269a',
-  storageBucket: 'mohan-4269a.appspot.com',
-  messagingSenderId: '275537933180',
-  appId: '1:275537933180:web:fbb633cc10e7d197fbaaf9',
+    'https://summa-f930c-default-rtdb.asia-southeast1.firebasedatabase.app/',
+  projectId: 'summa-f930c',
+  storageBucket: 'summa-f930c.appspot.com',
+  messagingSenderId: '834115724523',
+  appId: '1:834115724523:web:30491baf13f5e52d0dcaae',
+  measurementId: 'G-FPVHVZZJTR',
 };
 
 const app = initializeApp(firebaseConfig);
