@@ -10,27 +10,39 @@ import {
 } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
+// // const firebaseConfig = {
+// //   apiKey: 'AIzaSyA83y8ql7PTRBRsEyJyixVF80YtHPwI2f4',
+// //   authDomain: 'mohan-4269a.firebaseapp.com',
+// //   databaseURL:
+// //     'https://mohan-4269a-default-rtdb.asia-southeast1.firebasedatabase.app',
+// //   projectId: 'mohan-4269a',
+// //   storageBucket: 'mohan-4269a.appspot.com',
+// //   messagingSenderId: '275537933180',
+// //   appId: '1:275537933180:web:fbb633cc10e7d197fbaaf9',
+// // };
+
 // const firebaseConfig = {
-//   apiKey: 'AIzaSyA83y8ql7PTRBRsEyJyixVF80YtHPwI2f4',
-//   authDomain: 'mohan-4269a.firebaseapp.com',
+//   apiKey: 'AIzaSyBNxftkP8HQOQMN4NtT2pot99naB7exmx4',
+//   authDomain: 'summa-f930c.firebaseapp.com',
 //   databaseURL:
-//     'https://mohan-4269a-default-rtdb.asia-southeast1.firebasedatabase.app',
-//   projectId: 'mohan-4269a',
-//   storageBucket: 'mohan-4269a.appspot.com',
-//   messagingSenderId: '275537933180',
-//   appId: '1:275537933180:web:fbb633cc10e7d197fbaaf9',
+//     'https://summa-f930c-default-rtdb.asia-southeast1.firebasedatabase.app/',
+//   projectId: 'summa-f930c',
+//   storageBucket: 'summa-f930c.appspot.com',
+//   messagingSenderId: '834115724523',
+//   appId: '1:834115724523:web:30491baf13f5e52d0dcaae',
+//   measurementId: 'G-FPVHVZZJTR',
 // };
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBNxftkP8HQOQMN4NtT2pot99naB7exmx4',
-  authDomain: 'summa-f930c.firebaseapp.com',
+  apiKey: 'AIzaSyDZFl6BC-CnM04a6fN3Nm8AVzvWGd3KRFw',
+  authDomain: 'newone-64230.firebaseapp.com',
   databaseURL:
-    'https://summa-f930c-default-rtdb.asia-southeast1.firebasedatabase.app/',
-  projectId: 'summa-f930c',
-  storageBucket: 'summa-f930c.appspot.com',
-  messagingSenderId: '834115724523',
-  appId: '1:834115724523:web:30491baf13f5e52d0dcaae',
-  measurementId: 'G-FPVHVZZJTR',
+    'https://newone-64230-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'newone-64230',
+  storageBucket: 'newone-64230.appspot.com',
+  messagingSenderId: '125097466580',
+  appId: '1:125097466580:web:69216c1660d4342f1bb941',
+  measurementId: 'G-JJ2W1QSM9Q',
 };
 
 const app = initializeApp(firebaseConfig);
